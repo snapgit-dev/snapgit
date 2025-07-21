@@ -43,13 +43,23 @@ export default defineEventHandler(async (event) => {
       })
     }
 
-    // Seuls les admins peuvent changer de rôle (pour l'instant)
-    // En production, ceci serait géré par le système de paiement
+    // Vérification des permissions pour changer de rôle
     if (user.role !== 'admin') {
-      throw createError({
-        statusCode: 403,
-        statusMessage: 'Only administrators can change roles'
-      })
+      // Permettre aux utilisateurs de passer au statut payant après un paiement
+      if (role === 'paid' && user.role === 'basic') {
+        // OK - upgrade from basic to paid
+      }
+      // Permettre aux utilisateurs payants de repasser en basic (downgrade)
+      else if (role === 'basic' && user.role === 'paid') {
+        // OK - downgrade from paid to basic
+      }
+      // Interdire les autres changements pour les non-admins
+      else {
+        throw createError({
+          statusCode: 403,
+          statusMessage: 'Only administrators can change roles or users can upgrade/downgrade between basic and paid'
+        })
+      }
     }
 
     // Mettre à jour le rôle

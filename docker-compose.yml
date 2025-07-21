@@ -7,4 +7,4 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: password
       MONGO_INITDB_DATABASE: github-backup
     ports:
-      - "27020:27017"
+      - "27017:27017"

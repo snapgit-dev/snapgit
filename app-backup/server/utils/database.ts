@@ -8,7 +8,7 @@ export const connectToDatabase = async () => {
   }
 
   try {
-    const mongoUri = process.env.MONGODB_URI || 'mongodb://root:password@localhost:27020/github-backup?authSource=admin'
+    const mongoUri = process.env.MONGODB_URI || 'mongodb://root:password@localhost:27017/github-backup?authSource=admin'
     
     await mongoose.connect(mongoUri)
     isConnected = true
